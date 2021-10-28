@@ -31,6 +31,16 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
+app.get('/add_user', (req, res) => {
+  //   res.send('Curd Application');
+  res.render('add_user');
+});
+
+app.get('/update_user', (req, res) => {
+  //   res.send('Curd Application');
+  res.render('update_user');
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

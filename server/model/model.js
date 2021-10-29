@@ -2,18 +2,18 @@ const mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
   name: {
-    tyep: String,
-    require: true,
+    type: String,
+    required: true,
   },
   email: {
     type: String,
-    require: true,
+    required: true,
     unique: true,
   },
   gender: String,
   status: String,
 });
 
-const Userdb = mongoose.model('userdb', schema);
+const Userdb = mongoose.model('user', schema);
 
-module.experts = Userdb;
+module.exports = Userdb;

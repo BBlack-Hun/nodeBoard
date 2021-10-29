@@ -4,6 +4,8 @@ const morgan = require('morgan');
 const bodyparser = require('body-parser');
 const path = require('path');
 
+const connectDB = require('./server/database/connect');
+
 const app = express();
 
 // path를 지정하여 해당 파일을 가리켜준다.
@@ -12,6 +14,9 @@ const PORT = process.env.PORT || 8080;
 
 // log requests
 app.use(morgan('tiny'));
+
+// mongodb connection
+connectDB();
 
 // parse request to body-psrser
 app.use(bodyparser.urlencoded({ extended: true }));

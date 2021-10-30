@@ -33,19 +33,36 @@ exports.create = (req, res) => {
 
 //retrive and return all users/ retive and return a single user
 exports.find = (req, res) => {
-  // 전체 데이터를 조회
-  Userdb.find()
-    // 데이터를 잘 찾은 경우 반환해준다.
-    .then((user) => {
-      res.send(user);
-    })
-    // callback 데이터 즉, 반환되는 데이터가 문제가 발생할 경우
-    .catch((err) => {
-      res.status(500).send({
-        message:
-          err.message || 'Error Occurred while retriving user information',
+  if (req.query.id) {
+    const id = req.query.id;
+
+    Userdb.findById(id)
+      .then((data) => {
+        if (!data) {
+          res.status(404).send({ message: 'Not found user with id ' + id });
+        } else {
+          res.send(data);
+        }
+      })
+      .catch((err) => {
+        res.status(500).send({ message: 'Error retriving user with id ' + id });
       });
-    });
+  } else {
+    Userdb.find()
+      // 데이터를 잘 찾은 경우 반환해준다.
+      .then((user) => {
+        res.send(user);
+      })
+      // callback 데이터 즉, 반환되는 데이터가 문제가 발생할 경우
+      .catch((err) => {
+        res.status(500).send({
+          message:
+            err.message || 'Error Occurred while retriving user information',
+        });
+      });
+  }
+
+  // 전체 데이터를 조회
 };
 
 // Update a new identified user by user id
@@ -81,7 +98,7 @@ exports.update = (req, res) => {
 // Delete a user with specified user id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
-
+  // DB에서 해당 아이디를 찾고 삭제하는 QuerySql
   Userdb.findByIdAndDelete(id)
     .then((data) => {
       if (!data) {
